@@ -13,6 +13,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itrsa.model.Equipo;
+import com.itrsa.validation.EquipoValidation;
 
 /**
  * @author alejandro_sandler
@@ -21,6 +22,8 @@ import com.itrsa.model.Equipo;
 @Controller
 @RequestMapping("/grupo")
 public class Grupo {
+	
+	EquipoValidation val;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String initForm(ModelMap model){
@@ -38,7 +41,14 @@ public class Grupo {
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView processSubmit(@ModelAttribute("equipo") Equipo equi,BindingResult result, SessionStatus status) {
  
+		val= new EquipoValidation();
+		val.validate(equi, result);
+		if(result.hasErrors())
+			return new ModelAndView("grupo1");
+		else {
+			status.setComplete();
 		return new ModelAndView("grupo3","equipo",equi);
+		}
 	} 
 	
 	
@@ -50,7 +60,7 @@ public class Grupo {
 	@RequestMapping(value="/grupo1",method = RequestMethod.GET)
 	public String grupo1(ModelMap model) {
 		model.addAttribute("mensaje", "Grupo1");
-		return "grupo1";
+		return "hello";
  
 	}
 	

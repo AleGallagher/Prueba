@@ -9,7 +9,7 @@
 <body>
 	<body>
 	<form:form method="POST" commandName="equipo">
-		
+		<form:errors path="*" element="div" />
 		<h1>Grupo: ${mensaje}</h1>
 		
 		Nombre
